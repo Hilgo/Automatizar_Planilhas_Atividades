@@ -1,10 +1,9 @@
-import os
 import pandas as pd
-from pathlib import Path
-import sys
 import re
 
-BASE_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+from common import get_base_dir
+
+BASE_DIR = get_base_dir()
 TRATADOS_DIR = BASE_DIR / "csv_tratados"
 AVISOS_DIR = BASE_DIR / "avisos_alunos"
 AVISOS_DIR.mkdir(exist_ok=True)
@@ -138,7 +137,13 @@ Por favor, regularize o quanto antes.
     print(f"Ok - Avisos gerados: {saida}")
 
 
+def main(turma_prefixo: str, ate_semana: int = None):
+    gera_aviso_alunos(turma_prefixo, ate_semana)
+
+
 if __name__ == "__main__":
+    import sys
+
     if len(sys.argv) < 2:
         print("Uso:")
         print("  python gera_aviso_alunos.py 2DS")
@@ -148,4 +153,4 @@ if __name__ == "__main__":
     turma = sys.argv[1]
     ate_semana = int(sys.argv[2]) if len(sys.argv) >= 3 else None
 
-    gera_aviso_alunos(turma, ate_semana)
+    main(turma, ate_semana)

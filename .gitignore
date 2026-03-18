@@ -2,6 +2,7 @@
 *.csv
 *.log
 /build
+/dist
 
 # Pastas de dados (ignora tudo dentro)
 csv_tratados/*
@@ -14,3 +15,23 @@ pendencias_detalhadas/*
 !avisos_alunos/.gitkeep
 !painel_turmas/.gitkeep
 !pendencias_detalhadas/.gitkeep
+
+# Arquivos Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

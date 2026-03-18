@@ -1,9 +1,8 @@
 import pandas as pd
-from pathlib import Path
-import os
-import sys
 
-BASE_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+from common import get_base_dir
+
+BASE_DIR = get_base_dir()
 TRATADOS_DIR = BASE_DIR / "csv_tratados"
 Saida_DIR = BASE_DIR / "pendencias_detalhadas"
 Saida_DIR.mkdir(exist_ok=True)
@@ -78,7 +77,13 @@ def lista_pendencias(turma_prefixo: str, ate_semana: int = None):
     df.to_csv(saida, index=False, encoding='utf-8-sig', sep=';')
     print(f"Ok - Pendências detalhadas geradas em: {saida}")
 
+def main(turma_prefixo: str, ate_semana: int = None):
+    lista_pendencias(turma_prefixo, ate_semana)
+
+
 if __name__ == "__main__":
+    import sys
+
     if len(sys.argv) < 2:
         print("Uso:")
         print("  python lista_pendencias_detalhada.py 2DS")
@@ -88,4 +93,4 @@ if __name__ == "__main__":
     turma = sys.argv[1]
     ate_semana = int(sys.argv[2]) if len(sys.argv) >= 3 else None
 
-    lista_pendencias(turma, ate_semana)
+    main(turma, ate_semana)

@@ -1,14 +1,18 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 import configparser
-import subprocess
-import sys
-from pathlib import Path
 import threading
+
+from common import get_base_dir
+from pipeline_processa_csvs import main as pipeline_main
+from gera_painel_turma import main as painel_main
+from lista_pendencias_detalhada import main as lista_pendencias_main
+from gera_aviso_alunos import main as gera_aviso_alunos_main
+
 
 class Automatizador:
     def __init__(self):
-        self.BASE_DIR = self.get_base_dir()
+        self.BASE_DIR = get_base_dir()
         self.log_file = self.BASE_DIR / "debug.log"
         
         # Cria pastas
@@ -25,11 +29,6 @@ class Automatizador:
         self.semana_padrao = 4
         self.load_config_safe()
         self.setup_ui()
-    
-    def get_base_dir(self):
-        if getattr(sys, 'frozen', False):
-            return Path(sys._MEIPASS)
-        return Path(__file__).parent
     
     def load_config_safe(self):
         try:
@@ -185,30 +184,22 @@ class Automatizador:
         self.log(f"🚀 Iniciando {turma} semana {semana}")
         self.log(f"📁 CSVs encontrados ({len(csvs_turma)}): {[f.name for f in csvs_turma]}")
         
-        # Executa steps
+        # Executa steps (modo importável)
         steps = [
-            ("pipeline_processa_csvs.py", []),
-            ("gera_painel_turma.py", []),
-            ("lista_pendencias_detalhada.py", [turma, str(semana)]),
-            ("gera_aviso_alunos.py", [turma, str(semana)])
+            ("pipeline_processa_csvs", pipeline_main, []),
+            ("gera_painel_turma", painel_main, []),
+            ("lista_pendencias_detalhada", lista_pendencias_main, [turma, semana]),
+            ("gera_aviso_alunos", gera_aviso_alunos_main, [turma, semana])
         ]
-        
-        for nome_script, args in steps:
-            self.log(f"🔄 {nome_script}...")
-            
+
+        for nome, fn, args in steps:
+            self.log(f"🔄 {nome}...")
+
             try:
-                cmd = [sys.executable, str(self.BASE_DIR / nome_script)] + args
-                resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-                
-                if resultado.returncode == 0:
-                    self.log(f"✅ {nome_script} OK")
-                else:
-                    self.log(f"❌ {nome_script} FALHOU (código {resultado.returncode})")
-                    self.log(f"ERRO:\n{resultado.stderr[:1000]}")
-                    self.reset_btn()
-                    return
+                fn(*args)
+                self.log(f"✅ {nome} OK")
             except Exception as e:
-                self.log(f"💥 Erro {nome_script}: {str(e)}")
+                self.log(f"❌ {nome} FALHOU: {e}")
                 self.reset_btn()
                 return
         

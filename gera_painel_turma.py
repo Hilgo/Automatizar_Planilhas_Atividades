@@ -1,7 +1,8 @@
 import pandas as pd
-from pathlib import Path
 
-BASE_DIR = Path(__file__).parent
+from common import get_base_dir
+
+BASE_DIR = get_base_dir()
 TRATADOS_DIR = BASE_DIR / "csv_tratados"
 PAINEL_DIR = BASE_DIR / "painel_turmas"
 PAINEL_DIR.mkdir(exist_ok=True)
@@ -65,7 +66,20 @@ def gera_resumo_pendencias(turma_prefixo: str):
     print(f"Ok - Resumo de pendências salvo em: {saida}")
 
 
+def main(turmas=None):
+    """Gera resumo de pendências para as turmas informadas.
+
+    Args:
+        turmas: lista de prefixos de turma (ex: ['2DS', '3DS']).
+                Se None, usa ['2DS', '3DS'].
+    """
+    if turmas is None:
+        turmas = ["2DS", "3DS"]
+
+    for turma_prefixo in turmas:
+        gera_resumo_pendencias(turma_prefixo)
+
+
 if __name__ == "__main__":
     # Exemplo: gerar para 2DS e 3DS
-    gera_resumo_pendencias("2DS")
-    gera_resumo_pendencias("3DS")
+    main()

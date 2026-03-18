@@ -1,13 +1,15 @@
 from pathlib import Path
-import sys
-from subprocess import run
 
-BASE_DIR = Path(__file__).parent
+from common import get_base_dir
+from preprocessa_relatorio_unico import processa_relatorio_unico
+
+BASE_DIR = get_base_dir()
 RAW_DIR = BASE_DIR / "csv_brutos"
 OUT_DIR = BASE_DIR / "csv_tratados"
 
 RAW_DIR.mkdir(exist_ok=True)
 OUT_DIR.mkdir(exist_ok=True)
+
 
 def processa_arquivo(arquivo: Path):
     nome_base = arquivo.stem  # ex: 2DS_Logica
@@ -15,7 +17,7 @@ def processa_arquivo(arquivo: Path):
 
     print(f"\n=== {arquivo.name} ===")
     print("Processando relatório único...")
-    run([sys.executable, "preprocessa_relatorio_unico.py", str(arquivo), str(saida)], check=True)
+    processa_relatorio_unico(arquivo, saida)
     print("OK")
 
 def main():
