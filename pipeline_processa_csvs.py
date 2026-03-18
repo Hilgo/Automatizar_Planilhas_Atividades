@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 from subprocess import run
 
 BASE_DIR = Path(__file__).parent
@@ -14,19 +15,19 @@ def processa_arquivo(arquivo: Path):
 
     print(f"\n=== {arquivo.name} ===")
     print("Processando relatório único...")
-    run(["python", "preprocessa_relatorio_unico.py", str(arquivo), str(saida)], check=True)
-    print("✅ OK")
+    run([sys.executable, "preprocessa_relatorio_unico.py", str(arquivo), str(saida)], check=True)
+    print("OK")
 
 def main():
     arquivos = sorted(RAW_DIR.glob("*.csv"))
     if not arquivos:
-        print("❌ Nenhum CSV encontrado em csv_brutos/.")
+        print("Atenção - Nenhum CSV encontrado em csv_brutos/.")
         return
 
     for arq in arquivos:
         processa_arquivo(arq)
 
-    print("\n✅ Pipeline concluída.")
+    print("\n Ok Pipeline concluída.")
     print(f"Arquivos tratados em: {OUT_DIR}")
 
 if __name__ == "__main__":

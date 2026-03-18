@@ -62,7 +62,7 @@ def gera_resumo_pendencias(turma_prefixo: str):
 
     saida = PAINEL_DIR / f"resumo_pendencias_{turma_prefixo}.csv"
     resumo_df.to_csv(saida, index=False, encoding='utf-8-sig', sep=';')
-    print(f"✅ Resumo de pendências salvo em: {saida}")
+    print(f"Ok - Resumo de pendências salvo em: {saida}")
 
 
 if __name__ == "__main__":

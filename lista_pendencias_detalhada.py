@@ -76,7 +76,7 @@ def lista_pendencias(turma_prefixo: str, ate_semana: int = None):
 
     saida = Saida_DIR / f"pendencias_detalhadas_{turma_prefixo}.csv"
     df.to_csv(saida, index=False, encoding='utf-8-sig', sep=';')
-    print(f"✅ Pendências detalhadas geradas em: {saida}")
+    print(f"Ok - Pendências detalhadas geradas em: {saida}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

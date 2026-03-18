@@ -89,5 +89,5 @@ for semana_num, cols in semanas.items():
             )
 
 df_out.to_csv(saida, index=False, encoding='utf-8-sig', sep=';')
-print(f"✅ CSV salvo em: {saida}")
+print(f"OK CSV salvo em: {saida}")
 print("Colunas:", df_out.columns.tolist())

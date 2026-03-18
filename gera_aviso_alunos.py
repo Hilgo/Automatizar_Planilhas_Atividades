@@ -37,17 +37,17 @@ def gera_aviso_alunos(turma_prefixo: str, ate_semana: int = None):
     arquivos = sorted(TRATADOS_DIR.glob(f"{turma_prefixo}*_tratado.csv"))
 
     if not arquivos:
-        print(f"❌ Nenhum arquivo tratado encontrado para {turma_prefixo}")
+        print(f"Atenção - Nenhum arquivo tratado encontrado para {turma_prefixo}")
         return
 
-    print(f"✅ Encontrados {len(arquivos)} arquivos tratados")
+    print(f"Ok - Encontrados {len(arquivos)} arquivos tratados")
 
     avisos = {}
 
     for arq in arquivos:
         df = pd.read_csv(arq, sep=';')
 
-        # 🔥 Extrai disciplina do nome do arquivo
+        # Extrai disciplina do nome do arquivo
         nome_arquivo = arq.stem  # ex: 2DS_Carreira_tratado
         partes = nome_arquivo.split('_')
         disciplina = partes[1] if len(partes) >= 3 else "Desconhecida"
@@ -93,7 +93,7 @@ def gera_aviso_alunos(turma_prefixo: str, ate_semana: int = None):
                 elif tipo == "registro":
                     avisos[nome]['pendencias'][chave]['registro'] = True
 
-    # 🔥 Montar mensagens
+    # Montar mensagens
     resultado = []
 
     for nome, info in avisos.items():
@@ -135,7 +135,7 @@ Por favor, regularize o quanto antes.
     saida = AVISOS_DIR / f"avisos_{turma_prefixo}{f'_ate_semana_{ate_semana}' if ate_semana else ''}.csv"
     df_final.to_csv(saida, index=False, encoding='utf-8-sig', sep=';')
 
-    print(f"✅ Avisos gerados: {saida}")
+    print(f"Ok - Avisos gerados: {saida}")
 
 
 if __name__ == "__main__":

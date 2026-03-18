@@ -1,2 +1,16 @@
-# Ignore all .csv files
+# Ignorar todos os CSVs e logs gerados
 *.csv
+*.log
+/build
+
+# Pastas de dados (ignora tudo dentro)
+csv_tratados/*
+avisos_alunos/*
+painel_turmas/*
+pendencias_detalhadas/*
+
+# Permitir apenas o .gitkeep dentro delas
+!csv_tratados/.gitkeep
+!avisos_alunos/.gitkeep
+!painel_turmas/.gitkeep
+!pendencias_detalhadas/.gitkeep

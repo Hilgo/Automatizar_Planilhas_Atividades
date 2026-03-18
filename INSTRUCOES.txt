@@ -1,0 +1,45 @@
+🤖 AUTOMATIZADOR ATIVIDADES v3.2
+=================================
+
+✅ COMO USAR (2 MINUTOS/SEMANA):
+
+1. DESCOMPACTE este ZIP
+
+2. BAIXE da plataforma os 4 relatórios CSV:
+   2DS_Logica.csv
+   2DS_Redes.csv  
+   2DS_Processos.csv
+   2DS_Carreira.csv
+
+3. COLE os 4 CSVs na pasta csv_brutos/
+
+4. DUPLO CLIQUE em Automatizador_Atividades.exe
+
+5. SELECIONE turma + digite SEMANA (ex: 8)
+
+6. CLIQUE 🚀 EXECUTAR
+
+7. AGUARDE 30-60s → VER RESULTADO:
+   📁 painel_turmas/ ← Excel turmas
+   📱 avisos_alunos/ ← Planilha com mensagem para cada aluno das pendências
+   📋 debug.log ← detalhes
+
+=================================
+🔧 PERSONALIZAR (Bloco de Notas):
+
+config.ini:
+[TURMAS]
+lista = 2DS,3DS,2ADM,3ADM  ← suas turmas
+
+[SEMANAS] 
+padrao = 7           ← semana inicial
+
+Salve → reinicie programa!
+
+=================================
+❓ PROBLEMAS?
+- Ctrl+C no LOG → copia erro
+- Abra debug.log no Bloco de Notas
+- Envie para suporte
+
+✅ Funciona QUALQUER Windows
