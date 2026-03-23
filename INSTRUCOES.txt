@@ -5,23 +5,33 @@
 
 1. DESCOMPACTE este ZIP
 
-2. BAIXE da plataforma os 4 relatórios CSV:
-   2DS_Logica.csv
-   2DS_Redes.csv  
-   2DS_Processos.csv
-   2DS_Carreira.csv
+2. BAIXE da plataforma Educação Profissional (não precisa ser programador):
+   - Entre em Educação Profissional
+   - Vá para a disciplina que deseja avaliar (ex: 2DS_Logic, 2DS_Redes, etc.)
+   - Clique em Relatórios
+   - Selecione Conclusão de Atividades
+   - No final da página, use o link "Download em formato compatível com Excel (.csv)"
 
-3. COLE os 4 CSVs na pasta csv_brutos/
+3. GUARDE os arquivos .csv no formato padrão:
+   - TURMA_DISCIPLINA.csv
+   - Ex: 2DS_Logica.csv, 2DS_Redes.csv, 2DS_Processos.csv, 2DS_Carreira.csv
+   - O nome correto é fundamental para o programa reconhecer cada disciplina
 
-4. DUPLO CLIQUE em Automatizador_Atividades.exe
+4. COLE os CSVs na pasta csv_brutos/
 
-5. SELECIONE turma + digite SEMANA (ex: 8)
+5. DUPLO CLIQUE em Automatizador_Atividades.exe
+
+5. SELECIONE turma + digite SEMANA Atual que queira verificar (ex: 8)
 
 6. CLIQUE 🚀 EXECUTAR
 
 7. AGUARDE 30-60s → VER RESULTADO:
    📁 painel_turmas/ ← Excel turmas
-   📱 avisos_alunos/ ← Planilha com mensagem para cada aluno das pendências
+   📁 pendencias_detalhadas/ ← 3 relatórios:
+      - pendencias_detalhadas_<turma>.csv
+      - controle_alunos_<turma>.csv (Q1,Q2,Q3,R por semana)
+      - controle_alunos_resumo_<turma>.csv (totais de registros/quizzes)
+   ✉️ avisos_alunos/ ← Planilha com mensagem para cada aluno das pendências
    📋 debug.log ← detalhes
 
 =================================

@@ -15,7 +15,6 @@ mkdir release
 
 REM Pastas vazias
 mkdir release\csv_brutos
-mkdir release\painel_turmas
 mkdir release\avisos_alunos
 mkdir release\csv_tratados
 mkdir release\pendencias_detalhadas

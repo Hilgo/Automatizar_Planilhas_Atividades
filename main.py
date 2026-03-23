@@ -5,7 +5,6 @@ import threading
 
 from common import get_base_dir
 from pipeline_processa_csvs import main as pipeline_main
-from gera_painel_turma import main as painel_main
 from lista_pendencias_detalhada import main as lista_pendencias_main
 from gera_aviso_alunos import main as gera_aviso_alunos_main
 
@@ -185,9 +184,14 @@ class Automatizador:
         self.log(f"📁 CSVs encontrados ({len(csvs_turma)}): {[f.name for f in csvs_turma]}")
         
         # Executa steps (modo importável)
+        # 1) pipeline_processa_csvs -> cria csv_tratados/ a partir de csv_brutos/
+        # 2) lista_pendencias_detalhada -> gera:
+        #       - pendencias_detalhadas_<turma>.csv
+        #       - controle_alunos_<turma>.csv
+        #       - controle_alunos_resumo_<turma>.csv
+        # 3) gera_aviso_alunos -> gera avisos por aluno
         steps = [
             ("pipeline_processa_csvs", pipeline_main, []),
-            ("gera_painel_turma", painel_main, []),
             ("lista_pendencias_detalhada", lista_pendencias_main, [turma, semana]),
             ("gera_aviso_alunos", gera_aviso_alunos_main, [turma, semana])
         ]
