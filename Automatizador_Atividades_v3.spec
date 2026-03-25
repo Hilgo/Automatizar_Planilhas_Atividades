@@ -5,11 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[
-        ('INSTRUCOES.txt', '.'),
-        ('README.md', '.'),
-        ('config.ini', '.'),
-    ],
+    datas=[('INSTRUCOES.txt', '.'), ('README.md', '.'), ('config.ini', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -25,7 +21,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Automatizador_v3',
+    name='Automatizador_Atividades_v3',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -44,5 +40,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='Automatizador_v3',
+    name='Automatizador_Atividades_v3',
 )

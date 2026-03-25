@@ -15,8 +15,9 @@ com geração de relatórios detalhados e resumo.
 
 ## 📁 Estrutura de pastas
 
-- `csv_brutos/` — entrada de arquivos CSV do LMS
-- `csv_tratados/` — arquivos processados
+- `csv_brutos/` — entrada de arquivos CSV únicos do LMS (nome: `TURMA_DISCIPLINA.csv`) para disciplinas com ordem correta
+- `csv_fora_ordem/` — entrada de pares CSV desordenados (nomes: `TURMA_DISCIPLINA_Quiz.csv` e `TURMA_DISCIPLINA_Registros.csv`) para disciplinas que precisam de reordenação cronológica
+- `csv_tratados/` — arquivos processados (saída automática)
 - `pendencias_detalhadas/` — relatórios gerados
 - `painel_turmas/` — resultado consolidado para entrada dos professores
 - `avisos_alunos/` — mensagens por aluno
@@ -33,20 +34,44 @@ com geração de relatórios detalhados e resumo.
    ```powershell
    pip install -r requirements.txt
    ```
-4. Copie os CSVs da plataforma para `csv_brutos` com nome padrão:
-   `TURMA_DISCIPLINA.csv` (ex: `2DS_Logica.csv`).
+4. Copie os CSVs da plataforma para a pasta apropriada:
+   - **Disciplinas com ordem correta**: `csv_brutos/` com nome `TURMA_DISCIPLINA.csv` (ex: `2DS_Logica.csv`)
+   - **Disciplinas fora de ordem**: `csv_fora_ordem/` com nomes `TURMA_DISCIPLINA_Quiz.csv` e `TURMA_DISCIPLINA_Registros.csv` (ex: `2DS_Carreiras_Quiz.csv` e `2DS_Carreiras_Registros.csv`)
 5. Execute no terminal:
    ```powershell
    python main.py
    ```
 
+## ⚠️ Problema da Ordem Cronológica
+
+A plataforma Educação Profissional nem sempre exporta os dados na ordem esperada das semanas. Em algumas disciplinas, os registros e quizzes aparecem fora da sequência cronológica (ex: Semana 6, depois 5, 4, 7, 2, 1, 3), o que dificulta acompanhar o verdadeiro progresso dos alunos ao longo do tempo.
+
+Para resolver isso, o sistema oferece duas abordagens:
+
+- **Disciplinas normais**: Use `csv_brutos/` para arquivos únicos já organizados
+- **Disciplinas desordenadas**: Use `csv_fora_ordem/` para combinar e reordenar automaticamente
+
 ## 📌 Instruções de download na plataforma
 
+### Para disciplinas com ordem correta:
 1. Acesse Educação Profissional.
 2. Navegue até a turma/disciplina.
 3. Relatórios > Conclusão de Atividades.
 4. Ao final, clique em `Download em formato compatível com Excel (.csv)`.
-5. Salve com nome: `TURMA_DISCIPLINA.csv`.
+5. Salve em `csv_brutos/` com nome: `TURMA_DISCIPLINA.csv`.
+
+### Para disciplinas fora de ordem:
+**Por que isso acontece?** Em algumas disciplinas, a plataforma Educação Profissional exporta os dados fora da ordem cronológica (ex: Semana 6, 5, 4, 7, 2, 1, 3), o que prejudica a compreensão real do andamento dos registros e tarefas dos alunos ao longo do tempo.
+
+**Como resolver:**
+1. Acesse Educação Profissional e navegue até a disciplina.
+2. Em Relatórios, baixe **separadamente**:
+   - O relatório de **Registros da Aula** (atividades de participação)
+   - O relatório de **Pause e Responda** (quizzes)
+3. Salve em `csv_fora_ordem/` com nomes padronizados:
+   - `TURMA_DISCIPLINA_Registros.csv` (ex: `2DS_Carreiras_Registros.csv`)
+   - `TURMA_DISCIPLINA_Quiz.csv` (ex: `2DS_Carreiras_Quiz.csv`)
+4. O sistema irá combinar ambos os arquivos e reordenar automaticamente para ordem cronológica (Semanas 1-7), intercalando registros e quizzes por semana.
 
 ## 🧩 Uso do modo linha de comando
 

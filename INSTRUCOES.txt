@@ -6,18 +6,31 @@
 1. DESCOMPACTE este ZIP
 
 2. BAIXE da plataforma Educação Profissional (não precisa ser programador):
-   - Entre em Educação Profissional
-   - Vá para a disciplina que deseja avaliar (ex: 2DS_Logic, 2DS_Redes, etc.)
-   - Clique em Relatórios
-   - Selecione Conclusão de Atividades
-   - No final da página, use o link "Download em formato compatível com Excel (.csv)"
+   ⚠️ **IMPORTANTE**: A plataforma nem sempre exporta na ordem cronológica! Se os dados aparecerem fora de ordem (ex: S6,S5,S4,S7,S2,S1,S3), use a pasta csv_fora_ordem/ para reordenação automática.
+   
+   - Para disciplinas COM ORDEM CORRETA:
+     - Entre em Educação Profissional
+     - Vá para a disciplina
+     - Relatórios > Conclusão de Atividades
+     - Download .csv
+     - Salve como TURMA_DISCIPLINA.csv (ex: 2DS_Logica.csv)
+     - Cole em csv_brutos/
+   
+   - Para disciplinas FORA DE ORDEM (registros e quizzes separados):
+     ⚠️ POR QUE? Algumas disciplinas exportam dados fora da ordem cronológica (ex: S6,S5,S4,S7,S2,S1,S3), prejudicando a análise do progresso real dos alunos.
+     - Baixe SEPARADAMENTE o relatório de REGISTROS DA AULA (atividades)
+     - Baixe SEPARADAMENTE o relatório de PAUSE E RESPONDA (QUIZZES)
+     - Salve como TURMA_DISCIPLINA_Registros.csv e TURMA_DISCIPLINA_Quiz.csv
+     - Cole em csv_fora_ordem/
+     - O programa combina e reordena automaticamente para semanas 1-7
 
 3. GUARDE os arquivos .csv no formato padrão:
-   - TURMA_DISCIPLINA.csv
-   - Ex: 2DS_Logica.csv, 2DS_Redes.csv, 2DS_Processos.csv, 2DS_Carreira.csv
-   - O nome correto é fundamental para o programa reconhecer cada disciplina
+   - **Disciplinas normais** (ordem correta): TURMA_DISCIPLINA.csv (ex: 2DS_Logica.csv)
+   - **Disciplinas desordenadas** (fora de ordem): TURMA_DISCIPLINA_Registros.csv + TURMA_DISCIPLINA_Quiz.csv (ex: 2DS_Carreiras_Registros.csv + 2DS_Carreiras_Quiz.csv)
 
-4. COLE os CSVs na pasta csv_brutos/
+4. COLE os CSVs na pasta correta:
+   - **csv_brutos/** para arquivos únicos (disciplinas com ordem correta)
+   - **csv_fora_ordem/** para pares desordenados (disciplinas fora de ordem - serão reordenadas automaticamente)
 
 5. DUPLO CLIQUE em Automatizador_Atividades.exe
 

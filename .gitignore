@@ -1,8 +1,10 @@
 # Ignorar todos os CSVs e logs gerados
 *.csv
 *.log
+*.zip
 /build
 /dist
+/release
 
 # Pastas de dados (ignora tudo dentro)
 csv_tratados/*

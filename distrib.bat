@@ -1,31 +1,40 @@
 @echo off
 echo ========================================
-echo 📦 ZIP PROFESSOR v3.2
+echo Preparando pacote de distribuicao v3.2
 echo ========================================
 
-if not exist dist\Automatizador_v3.exe (
-    echo ❌ pyinstaller primeiro!
+if not exist "dist\Automatizador_Atividades_v3\Automatizador_Atividades_v3.exe" (
+    echo ERRO: Execute build.bat primeiro!
     pause
     exit /b
 )
 
-REM Limpar
+REM Limpar release anterior
 if exist release rmdir /s /q release
 mkdir release
 
-REM Pastas vazias
+REM Copiar aplicativo com todos os arquivos
+xcopy /E /I /Y "dist\Automatizador_Atividades_v3" "release\Automatizador_Atividades_v3"
+
+REM Criar pastas de dados
 mkdir release\csv_brutos
+mkdir release\csv_fora_ordem
 mkdir release\avisos_alunos
 mkdir release\csv_tratados
 mkdir release\pendencias_detalhadas
+mkdir release\painel_turmas
 
-REM ARQUIVOS ESSENCIAIS
-copy dist\Automatizador_v3.exe release\
-REM ✅ CONFIG NA MESMA PASTA DO EXE
-copy config.ini release\config.ini
-copy INSTRUCOES.txt release\INSTRUCOES.txt
+REM Copiar arquivos de instrucoes e configuracao para dentro da pasta do app
+if not exist "release\Automatizador_Atividades_v3\INSTRUCOES.txt" copy INSTRUCOES.txt "release\Automatizador_Atividades_v3\INSTRUCOES.txt"
+if not exist "release\Automatizador_Atividades_v3\README.md" copy README.md "release\Automatizador_Atividades_v3\README.md"
+if not exist "release\Automatizador_Atividades_v3\config.ini" copy config.ini "release\Automatizador_Atividades_v3\config.ini"
 
-echo ✅ release/ pronto com config.ini!
-powershell Compress-Archive release automatizador_v3_professor.zip -Force
-echo 📦 ZIP: automatizador_v3_professor.zip
+echo.
+echo Arquivo gerado em: release\
+echo Arquivos de instrucoes estao em: release\Automatizador_Atividades_v3\INSTRUCOES.txt
+echo.
+
+REM Gerar zip apenas com o conteudo da pasta do app (sem nivel extra de release)
+powershell Compress-Archive -Path "release\Automatizador_Atividades_v3\*" -DestinationPath "automatizador_v3_professor.zip" -Force
+echo Pacote criado: automatizador_v3_professor.zip
 pause
