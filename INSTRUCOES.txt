@@ -1,68 +1,132 @@
-🤖 AUTOMATIZADOR ATIVIDADES v3.2
-=================================
 
-✅ COMO USAR (2 MINUTOS/SEMANA):
+📘 GUIA RÁPIDO – Sistema de Controle de Registros
 
-1. DESCOMPACTE este ZIP
+Este sistema analisa os CSVs exportados da plataforma Educação Profissional e gera relatórios automáticos de participação dos estudantes.
 
-2. BAIXE da plataforma Educação Profissional (não precisa ser programador):
-   ⚠️ **IMPORTANTE**: A plataforma nem sempre exporta na ordem cronológica! Se os dados aparecerem fora de ordem (ex: S6,S5,S4,S7,S2,S1,S3), use a pasta csv_fora_ordem/ para reordenação automática.
-   
-   - Para disciplinas COM ORDEM CORRETA:
-     - Entre em Educação Profissional
-     - Vá para a disciplina
-     - Relatórios > Conclusão de Atividades
-     - Download .csv
-     - Salve como TURMA_DISCIPLINA.csv (ex: 2DS_Logica.csv)
-     - Cole em csv_brutos/
-   
-   - Para disciplinas FORA DE ORDEM (registros e quizzes separados):
-     ⚠️ POR QUE? Algumas disciplinas exportam dados fora da ordem cronológica (ex: S6,S5,S4,S7,S2,S1,S3), prejudicando a análise do progresso real dos alunos.
-     - Baixe SEPARADAMENTE o relatório de REGISTROS DA AULA (atividades)
-     - Baixe SEPARADAMENTE o relatório de PAUSE E RESPONDA (QUIZZES)
-     - Salve como TURMA_DISCIPLINA_Registros.csv e TURMA_DISCIPLINA_Quiz.csv
-     - Cole em csv_fora_ordem/
-     - O programa combina e reordena automaticamente para semanas 1-7
+--------------------------------------------
 
-3. GUARDE os arquivos .csv no formato padrão:
-   - **Disciplinas normais** (ordem correta): TURMA_DISCIPLINA.csv (ex: 2DS_Logica.csv)
-   - **Disciplinas desordenadas** (fora de ordem): TURMA_DISCIPLINA_Registros.csv + TURMA_DISCIPLINA_Quiz.csv (ex: 2DS_Carreiras_Registros.csv + 2DS_Carreiras_Quiz.csv)
+🧾 PASSO 1 – Exportar os CSVs
 
-4. COLE os CSVs na pasta correta:
-   - **csv_brutos/** para arquivos únicos (disciplinas com ordem correta)
-   - **csv_fora_ordem/** para pares desordenados (disciplinas fora de ordem - serão reordenadas automaticamente)
+Na plataforma Educação Profissional:
 
-5. DUPLO CLIQUE em Automatizador_Atividades.exe
+1. Abra a disciplina que leciona
+2. Vá na opção Relatórios -> Conclusão de Atividades
+2. Exporte o relatório em CSV, opção no final da página do relatório (Download em formato compatível com Excel (. csv))
+3. Salve no computador
 
-5. SELECIONE turma + digite SEMANA Atual que queira verificar (ex: 8)
+--------------------------------------------
 
-6. CLIQUE 🚀 EXECUTAR
+📂 PASSO 2 – Colocar os arquivos na pasta
 
-7. AGUARDE 30-60s → VER RESULTADO:
-   📁 painel_turmas/ ← Excel turmas
-   📁 pendencias_detalhadas/ ← 3 relatórios:
-      - pendencias_detalhadas_<turma>.csv
-      - controle_alunos_<turma>.csv (Q1,Q2,Q3,R por semana)
-      - controle_alunos_resumo_<turma>.csv (totais de registros/quizzes)
-   ✉️ avisos_alunos/ ← Planilha com mensagem para cada aluno das pendências
-   📋 debug.log ← detalhes
+Coloque os CSVs na pasta:
 
-=================================
-🔧 PERSONALIZAR (Bloco de Notas):
+csv_brutos
 
-config.ini:
+Exemplo:
+
+csv_brutos
+   2DS_Logica.csv
+
+OBS: Utilize a seguinte regra para os nomes: TURMA_Disciplina: 2DS_Logica, que é a forma que o programa vai saber de qual turma e disciplina são os arquivos para montagem das planilhas
+
+--------------------------------------------
+
+🔧 PASSO 3 -  PERSONALIZAR (Bloco de Notas):
+O arquivo de configuração config.ini é o arquivo que você vai inforar suas turmas, a semana por padrão que vai ser verificada (4 -> será avaliado as pendências até a 4 semana) e os casos de disciplina que estão fora de ordem:
 [TURMAS]
 lista = 2DS,3DS,2ADM,3ADM  ← suas turmas
 
 [SEMANAS] 
 padrao = 7           ← semana inicial
 
+[ORDENS]
+
+2DS_Carreiras = S6,S5,S4,S7,S2,S1,S3  ← Exemplo de uma disciplina fora de ordem de uma turma 2DS
+3DS_Versionamento = S1,S2,S3,S4,S5,S7,S6 ← Exemplo de uma disciplina fora de ordem de uma turma 3DS
+
 Salve → reinicie programa!
 
-=================================
-❓ PROBLEMAS?
-- Ctrl+C no LOG → copia erro
-- Abra debug.log no Bloco de Notas
-- Envie para suporte
+--------------------------------------------
 
-✅ Funciona QUALQUER Windows
+🖥️ PASSO 4 – Abrir o programa
+
+Execute o arquivo:
+
+python main.py Ou execute o Automatizador_Atividades_v3.exe
+
+Será aberta uma **interface gráfica**.
+
+--------------------------------------------
+
+⚙️ PASSO 5 – Usar a interface
+
+Na tela do programa:
+
+1. O sistema irá listar os arquivos encontrados
+2. Escolha a turma
+3. Selecione até qual semana o programa listará as pendências (4 -> o programa irá listar as pendências da 1 semana até a 4)
+3. Clique no botão **Executar**
+
+O sistema fará automaticamente:
+
+✔ leitura dos CSVs  
+✔ análise de quizzes  
+✔ análise de registros  
+✔ geração de relatórios
+
+--------------------------------------------
+
+📊 PASSO 6 – Ver resultados
+
+Os arquivos serão gerados automaticamente.
+
+Arquivos gerados na pasta pendencias_detalhadas:
+
+controle_alunos_<turma>.csv ← esse relatório junta todas as disciplinas e elenca se está faltando algum registro e quiz, ótimo para cobrar dos estudantes
+
+controle_alunos_resumo_<turma>.csv ← esse relatório é parecido com o outro porém ele apenas mostra numericamente quantas pendências de registros e quizzes cada estudante possui
+
+pendencias_detalhadas_<turma>.csv
+
+--------------------------------------------
+
+⚠️ CASOS ESPECIAIS
+
+Se a plataforma exportar semanas fora de ordem, devemos exportar separadamente o quiz e os registros da disciplina
+
+Exemplo:
+
+2DS_Carreiras_Quiz.csv  
+2DS_Carreiras_Registros.csv
+
+Nesse caso o sistema pode combinar os arquivos automaticamente ou usar o script:
+
+python combina_reordena.py
+
+--------------------------------------------
+
+💡 DICA IMPORTANTE
+
+Use sempre este padrão de nomes:
+
+TURMA_DISCIPLINA_Quiz.csv
+
+TURMA_DISCIPLINA_Registros.csv
+
+Exemplo:
+
+3DS_Versionamento_Quiz.csv  
+3DS_Versionamento_Registros.csv
+
+Isso permite que o sistema identifique automaticamente os arquivos.
+
+--------------------------------------------
+
+👨‍🏫 OBJETIVO
+
+Este sistema foi criado para ajudar professores a:
+
+✔ acompanhar participação dos estudantes  
+✔ identificar rapidamente quem não fez atividades  
+✔ reduzir trabalho manual
+

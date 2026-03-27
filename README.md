@@ -1,115 +1,180 @@
-# Automatizador de Planilhas de Atividades
 
-Sistema para automatizar análise de pendências de alunos por turma e disciplina,
-com geração de relatórios detalhados e resumo.
+# 📊 Controle de Registros e Quizzes – Educação Profissional
 
-## ✅ O que faz
+Sistema para análise de **registros semanais** e **quizzes** exportados da plataforma Educação Profissional.
 
-- Processa CSVs brutos (`csv_brutos/`) gerados a partir da plataforma Educação Profissional.
-- Gera arquivos tratados (`csv_tratados/`) (via `pipeline_processa_csvs`).
-- Gera relatórios:
-  - `pendencias_detalhadas_<turma>.csv`
-  - `controle_alunos_<turma>.csv` (por semana e disciplina: `Qx`, `R`)
-  - `controle_alunos_resumo_<turma>.csv` (totais por aluno)
-- Emite avisos por aluno em `avisos_alunos/`.
+O objetivo é automatizar a verificação de quais alunos responderam quizzes e fizeram registros semanais, gerando relatórios de acompanhamento e pendências.
 
-## 📁 Estrutura de pastas
+Este projeto foi pensado para **professores**, inclusive aqueles que **não têm experiência com programação**.
 
-- `csv_brutos/` — entrada de arquivos CSV únicos do LMS (nome: `TURMA_DISCIPLINA.csv`) para disciplinas com ordem correta
-- `csv_fora_ordem/` — entrada de pares CSV desordenados (nomes: `TURMA_DISCIPLINA_Quiz.csv` e `TURMA_DISCIPLINA_Registros.csv`) para disciplinas que precisam de reordenação cronológica
-- `csv_tratados/` — arquivos processados (saída automática)
-- `pendencias_detalhadas/` — relatórios gerados
-- `painel_turmas/` — resultado consolidado para entrada dos professores
-- `avisos_alunos/` — mensagens por aluno
+---
 
-## 📦 Instalação / execução
+# 🖥️ Interface gráfica (modo recomendado)
 
-1. Tenha Python 3 instalado.
-2. Crie e ative virtualenv (opcional):
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1
-   ```
-3. Instale dependências:
-   ```powershell
-   pip install -r requirements.txt
-   ```
-4. Copie os CSVs da plataforma para a pasta apropriada:
-   - **Disciplinas com ordem correta**: `csv_brutos/` com nome `TURMA_DISCIPLINA.csv` (ex: `2DS_Logica.csv`)
-   - **Disciplinas fora de ordem**: `csv_fora_ordem/` com nomes `TURMA_DISCIPLINA_Quiz.csv` e `TURMA_DISCIPLINA_Registros.csv` (ex: `2DS_Carreiras_Quiz.csv` e `2DS_Carreiras_Registros.csv`)
-5. Execute no terminal:
-   ```powershell
-   python main.py
-   ```
+Para facilitar o uso, o projeto possui um programa com **interface gráfica**:
 
-## ⚠️ Problema da Ordem Cronológica
+📄 `main.py`
 
-A plataforma Educação Profissional nem sempre exporta os dados na ordem esperada das semanas. Em algumas disciplinas, os registros e quizzes aparecem fora da sequência cronológica (ex: Semana 6, depois 5, 4, 7, 2, 1, 3), o que dificulta acompanhar o verdadeiro progresso dos alunos ao longo do tempo.
+Esse programa permite executar todo o processo **sem precisar usar comandos no terminal**.
 
-Para resolver isso, o sistema oferece duas abordagens:
+A interface permite:
 
-- **Disciplinas normais**: Use `csv_brutos/` para arquivos únicos já organizados
-- **Disciplinas desordenadas**: Use `csv_fora_ordem/` para combinar e reordenar automaticamente
+✔ listar automaticamente os arquivos da pasta `csv_brutos`  
+✔ escolher a **turma** que será analisada  
+✔ executar todo o **pipeline automaticamente**  
 
-## 📌 Instruções de download na plataforma
+Ou seja, basta:
 
-### Para disciplinas com ordem correta:
-1. Acesse Educação Profissional.
-2. Navegue até a turma/disciplina.
-3. Relatórios > Conclusão de Atividades.
-4. Ao final, clique em `Download em formato compatível com Excel (.csv)`.
-5. Salve em `csv_brutos/` com nome: `TURMA_DISCIPLINA.csv`.
+1. Abrir o programa
+2. Selecionar a turma
+3. Incluir até qual semana gerar as pendências
+4. Clicar em **Executar**
 
-### Para disciplinas fora de ordem:
-**Por que isso acontece?** Em algumas disciplinas, a plataforma Educação Profissional exporta os dados fora da ordem cronológica (ex: Semana 6, 5, 4, 7, 2, 1, 3), o que prejudica a compreensão real do andamento dos registros e tarefas dos alunos ao longo do tempo.
+O sistema irá:
 
-**Como resolver:**
-1. Acesse Educação Profissional e navegue até a disciplina.
-2. Em Relatórios, baixe **separadamente**:
-   - O relatório de **Registros da Aula** (atividades de participação)
-   - O relatório de **Pause e Responda** (quizzes)
-3. Salve em `csv_fora_ordem/` com nomes padronizados:
-   - `TURMA_DISCIPLINA_Registros.csv` (ex: `2DS_Carreiras_Registros.csv`)
-   - `TURMA_DISCIPLINA_Quiz.csv` (ex: `2DS_Carreiras_Quiz.csv`)
-4. O sistema irá combinar ambos os arquivos e reordenar automaticamente para ordem cronológica (Semanas 1-7), intercalando registros e quizzes por semana.
+✔ processar os CSVs  
+✔ combinar dados se necessário  
+✔ gerar relatórios de pendências
 
-## 🧩 Uso do modo linha de comando
+---
 
-Para só o script de pendências:
-```powershell
-python lista_pendencias_detalhada.py 2DS 4
-```
-Isso gera arquivos em `pendencias_detalhadas/`.
+# 🧠 Visão Geral do Funcionamento
 
-## 📝 Legenda no relatório
+1. O professor exporta os **CSVs da plataforma Educação Profissional** (Relatórios -> Conclusão de Atividades)
+2. Os arquivos são colocados nas pastas do projeto
+3. O programa `main.py` executa o processamento
+4. O sistema gera relatórios automáticos
 
-- `Q1`, `Q2`, `Q3`: quizzes faltando por semana.
-- `R`: registro (atividade semanal) faltando.
-- vazio: sem pendências.
+---
 
-## 🔧 Configuração
+# 📁 Estrutura do Projeto
 
-Arquivo: `config.ini`:
-```ini
-[TURMAS]
-lista = 2DS,3DS,2ADME,
+projeto/
 
-[SEMANAS]
-padrao = 7
-```
+csv_brutos/  
+csv_fora_ordem/  
 
-## 🛠️ Componentes
+pipeline_processa_csvs.py  
+combina_reordena.py  
+main.py  
+config.ini  
 
-- `pipeline_processa_csvs.py`
-- `lista_pendencias_detalhada.py`
-- `gera_aviso_alunos.py`
-- `main.py` (interface tkinter)
+saida/
 
-## 🗂️ Saída
+Descrição:
 
-- `Kontrol`: `controle_alunos_<turma>.csv`, `controle_alunos_resumo_<turma>.csv`.
-- `Pendências detalhadas`: `pendencias_detalhadas_<turma>.csv`.
+📂 **csv_brutos** → CSV exportado da plataforma já pronto  
+📂 **csv_fora_ordem** → arquivos separados de quiz e registros  
+⚙️ **config.ini** → configurações do sistema  
+🐍 **pipeline_processa_csvs.py** → script principal que executa as rotinas de tratamento dos arquivos e geração de planilhas detalhadas
+🖥️ **main.py** → interface gráfica para executar o sistema  
 
-## 💬 Feedback
+---
 
-- Se precisar de novos relatórios por disciplina ou export Excel direto, abra issue no Github.
+# ⚠️ Problema da Ordem Cronológica
+
+Em algumas disciplinas a plataforma exporta as semanas fora da ordem correta.
+
+Exemplo exportado:
+
+Semana 6, Semana 5, Semana 4, Semana 7, Semana 2, Semana 1, Semana 3
+
+Mas o correto seria:
+
+Semana 1, Semana 2, Semana 3, Semana 4, Semana 5, Semana 6, Semana 7
+
+O script `combina_reordena.py` resolve isso automaticamente.
+
+---
+
+# ⚙️ Configuração de Ordem de Semanas
+
+Se uma disciplina exportar as semanas em uma ordem diferente, você pode configurar no arquivo **config.ini**.
+
+Exemplo:
+
+[ORDENS]
+
+2DS_Carreiras = S6,S5,S4,S7,S2,S1,S3  
+3DS_Versionamento = S1,S2,S3,S4,S5,S7,S6
+
+Como funciona:
+
+Se os arquivos forem:
+
+2DS_Carreiras_Quiz.csv  
+2DS_Carreiras_Registros.csv
+
+O sistema identifica automaticamente a chave:
+
+2DS_Carreiras
+
+E aplica a ordem definida.
+
+Se não houver configuração, a ordem padrão será usada.
+
+---
+
+# 📦 Exemplo de Arquivos
+
+csv_brutos/
+
+2DS_Logica.csv
+
+csv_fora_ordem/
+
+2DS_Carreiras_Quiz.csv  
+2DS_Carreiras_Registros.csv  
+
+3DS_Versionamento_Quiz.csv  
+3DS_Versionamento_Registros.csv
+
+---
+
+# ▶️ Execução do Sistema
+
+## Método recomendado (interface gráfica)
+
+Executar:
+
+python main.py Ou iniciar o arquivo exe
+
+Depois:
+
+1. Selecionar a turma
+2. Clicar em **Executar**
+
+---
+
+## Método avançado (linha de comando)
+
+Também é possível executar manualmente.
+
+Para corrigir arquivos fora de ordem:
+
+python combina_reordena.py csv_fora_ordem/2DS_Carreiras_Registros.csv csv_fora_ordem/2DS_Carreiras_Quiz.csv
+
+Depois executar:
+
+python controle_alunos.py
+
+---
+
+# 📊 Saídas Geradas
+
+O sistema gera:
+
+📄 controle_alunos_<turma>.csv  
+📄 controle_alunos_resumo_<turma>.csv  
+📄 pendencias_detalhadas_<turma>.csv
+
+---
+
+# 👨‍🏫 Objetivo Educacional
+
+Este projeto foi criado para ajudar professores a:
+
+✔ acompanhar participação dos alunos  
+✔ identificar pendências rapidamente  
+✔ reduzir trabalho manual de conferência  
+
